@@ -4171,3 +4171,13 @@ input, select, textarea {
 .features article p:last-child {
     margin-top: auto;
 }
+
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.features article {
+    min-height: 550px;
+}
