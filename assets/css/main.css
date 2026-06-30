@@ -4181,3 +4181,23 @@ input, select, textarea {
 .features article {
     min-height: 550px;
 }
+
+.contact-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.contact {
+    text-align: left;
+    max-width: 500px;
+}
+
+#footer > .inner {
+    display: flex;
+    justify-content: center;
+}
+
+#footer .contact {
+    width: auto;
+}
