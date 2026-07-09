@@ -4201,23 +4201,3 @@ input, select, textarea {
 #footer .contact {
     width: auto;
 }
-
-/* Project Images - Square Cards */
-
-.spotlight .image {
-	border-radius: 15px;
-	width: 18em;
-	height: 18em;
-	overflow: hidden;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background: #ffffff;
-}
-
-.spotlight .image img {
-	width: 85%;
-	height: 85%;
-	object-fit: contain;
-	border-radius: 10px;
-}
