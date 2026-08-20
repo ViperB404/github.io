@@ -1,322 +1,282 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CrowdStrike Detection Dashboard</title>
-
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Brent Alford | Network &amp; Security Engineer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#00363d",
+                        "inverse-primary": "#006875",
+                        "secondary-container": "#3e495d",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#dae2fd",
+                        "on-primary-container": "#00626e",
+                        "on-error": "#690005",
+                        "primary-fixed": "#9cf0ff",
+                        "error-container": "#93000a",
+                        "surface-container-highest": "#2d3449",
+                        "on-secondary": "#263143",
+                        "on-secondary-container": "#aeb9d0",
+                        "primary-fixed-dim": "#00daf3",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "primary": "#c3f5ff",
+                        "inverse-surface": "#dae2fd",
+                        "background": "#0b1326",
+                        "on-surface-variant": "#bac9cc",
+                        "on-secondary-fixed": "#111c2d",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#2d3449",
+                        "secondary-fixed": "#d8e3fb",
+                        "on-surface": "#dae2fd",
+                        "on-primary-fixed": "#001f24",
+                        "inverse-on-surface": "#283044",
+                        "surface-bright": "#31394d",
+                        "on-primary-fixed-variant": "#004f58",
+                        "on-tertiary-fixed-variant": "#2f2ebe",
+                        "on-tertiary-container": "#4344d1",
+                        "tertiary-fixed-dim": "#c0c1ff",
+                        "secondary": "#bcc7de",
+                        "surface-container-low": "#131b2e",
+                        "tertiary-container": "#ccccff",
+                        "surface-container": "#171f33",
+                        "outline-variant": "#3b494c",
+                        "surface": "#0b1326",
+                        "surface-tint": "#00daf3",
+                        "on-tertiary-fixed": "#07006c",
+                        "tertiary": "#edeaff",
+                        "on-tertiary": "#1000a9",
+                        "primary-container": "#00e5ff",
+                        "surface-container-high": "#222a3d",
+                        "surface-container-lowest": "#060e20",
+                        "surface-dim": "#0b1326",
+                        "outline": "#849396",
+                        "tertiary-fixed": "#e1e0ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "section-gap-mobile": "64px",
+                        "base": "8px",
+                        "grid-columns": "12",
+                        "section-gap": "120px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Geist"],
+                        "headline-lg-mobile": ["Geist"],
+                        "headline-xl": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "code-sm": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-xl": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "code-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Segoe UI,Arial,sans-serif;
-}
-
-body{
-    background:#10151c;
-    color:white;
-}
-
-header{
-    background:#d71920;
-    padding:20px;
-}
-
-header h1{
-    font-size:32px;
-}
-
-header p{
-    color:#ddd;
-}
-
-.container{
-    width:90%;
-    margin:auto;
-    padding:30px;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-    margin-bottom:40px;
-}
-
-.card{
-    background:#1a222d;
-    border-left:5px solid #d71920;
-    padding:25px;
-    border-radius:10px;
-    box-shadow:0 0 10px rgba(0,0,0,.4);
-}
-
-.card h2{
-    color:#bbb;
-    margin-bottom:15px;
-}
-
-.number{
-    font-size:50px;
-    color:#4ee44e;
-    font-weight:bold;
-}
-
-.section{
-    background:#1a222d;
-    padding:25px;
-    border-radius:10px;
-    margin-bottom:30px;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-th{
-    background:#d71920;
-    padding:12px;
-}
-
-td{
-    padding:12px;
-    border-bottom:1px solid #333;
-}
-
-tr:hover{
-    background:#2b3644;
-}
-
-.status{
-    padding:5px 10px;
-    border-radius:15px;
-    display:inline-block;
-    font-size:12px;
-}
-
-.blocked{
-    background:#00aa44;
-}
-
-.investigating{
-    background:#ff9800;
-}
-
-.chart{
-    display:flex;
-    gap:15px;
-    align-items:flex-end;
-    height:220px;
-    margin-top:20px;
-}
-
-.bar{
-    flex:1;
-    background:#d71920;
-    text-align:center;
-    color:white;
-    border-radius:5px 5px 0 0;
-    position:relative;
-}
-
-.bar span{
-    position:absolute;
-    width:100%;
-    bottom:-25px;
-}
-
-footer{
-    text-align:center;
-    padding:20px;
-    color:#aaa;
-}
-</style>
+        .inner-glow {
+            box-shadow: inset 0 0 0 1px rgba(0, 229, 255, 0.2);
+        }
+        .diffused-glow:hover {
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
+        }
+        .glass-panel {
+            background-color: rgba(45, 52, 73, 0.6);
+            backdrop-filter: blur(12px);
+        }
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: -4px; left: 0; background-color: #00e5ff;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after { width: 100%; }
+        
+        html { scroll-behavior: smooth; }
+        body { background-color: #0b1326; color: #dae2fd; }
+    </style>
 </head>
+<body class="font-body-md text-body-md overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation -->
 
-<body>
-
-<header>
-<h1>CrowdStrike Security Dashboard</h1>
-<p>Executive Security Overview</p>
-</header>
-
-<div class="container">
-
-<div class="cards">
-
-<div class="card">
-<h2>Threats Blocked</h2>
-
-<!-- UPDATE THIS NUMBER -->
-<div class="number" data-target="1247">0</div>
-
+<!-- Hero Section -->
+<section class="relative flex items-center py-12 md:py-20 overflow-hidden"><div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center opacity-30" data-alt="A dark, abstract digital network graph background with glowing cyan nodes and connecting lines, representing enterprise security and connectivity. High-tech, futuristic style." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCeOzMo_6HNmYqGLI8TXKAIC4sP6niGXUnjfF2m-DupmMTPaN5380rmHRwTLM922OdCoBm6oc0OcdVG1-0lnmpDAzpmL1TMBDOXvVee9riNF2J9S7GV3aIl3URpPs7uuf2p1wKdUObOYG6ivkL1Rb-wbPvXhTaVX1iZ_cNxiWjCJTCAAvqf_g238gduU0RPCpeHkjEdE-ZSPn4t1YVbHw0_DUAi5vY2SpoI_MC5e6v_ScZtFmggtn1Lew&quot;);"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent to-background"></div>
 </div>
-
-<div class="card">
-<h2>Endpoints Protected</h2>
-
-<!-- UPDATE -->
-<div class="number" data-target="386">0</div>
-
+<div class="container mx-auto px-6 md:px-20 z-10 max-w-container-max fade-in-up" style="animation-play-state: running;">
+<div class="max-w-3xl">
+<h1 class="font-headline-xl text-headline-xl mb-4 text-white">
+                    Brent Alford
+                </h1>
+<div class="font-headline-md text-headline-md text-primary-fixed mb-8 flex items-center">
+<img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiV9NAyLwgVuR4yeQ3XK1SRHAU18NnuZi7-uPXe13f2Ox4TT0NpQrz4JW8utrFwEWnoMX8ITOFWbLLIMLA4C91KYc3X0nWzwS5sMMC4_8hkxK-M0a0qW7h70n_t05JUNbsw7OsMsi-2i_I7k-jHYtIehB92CbQ5wKqdAEu1Cbb6NBNYcqjW8eaGyOhAEJVb5q2f7wWqTiViglJcdBGP0nsQ0QSr8DOmcpAhl-5pSaxq36pTwOp-Z_8U8ceXQHehlGI_HA" alt="Network Icon" class="w-6 h-6 mr-2 object-contain">
+<span class="animate-pulse">Network &amp; Security Engineer</span>
 </div>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-2xl leading-relaxed">
+                    IT Professional with 4+ years of experience designing, securing, and supporting enterprise networks and infrastructure. Experienced with Cisco networking, Palo Alto firewalls, CrowdStrike, Microsoft 365, Active Directory, Wazuh SIEM, and enterprise security.
+                </p>
+<div class="flex flex-wrap gap-4 font-label-caps text-label-caps">
 
-<div class="card">
-<h2>Malware Prevented</h2>
-
-<!-- UPDATE -->
-<div class="number" data-target="148">0</div>
-
+<a class="bg-transparent border border-outline-variant text-on-surface px-8 py-4 rounded hover:border-primary hover:text-white transition-colors duration-300" href="#">
+                        Download Resume
+                    </a>
 </div>
-
-<div class="card">
-<h2>Identity Attacks</h2>
-
-<!-- UPDATE -->
-<div class="number" data-target="17">0</div>
-
 </div>
-
+</div></section>
+<!-- Projects Section -->
+<section class="bg-surface py-8" id="projects">
+<div class="container mx-auto px-6 md:px-20 max-w-container-max">
+<div class="fade-in-up mb-8" style="animation-play-state: running;">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-white mb-2">Project Spotlights</h2>
+<div class="w-16 h-1 bg-primary"></div>
 </div>
-
-<div class="section">
-
-<h2>Recent Detections</h2>
-
-<table>
-
-<tr>
-<th>Date</th>
-<th>Hostname</th>
-<th>Detection</th>
-<th>Action</th>
-</tr>
-
-<tr>
-<td>7/7/2026</td>
-<td>FIN-PC-14</td>
-<td>PowerShell Exploit Attempt</td>
-<td><span class="status blocked">Blocked</span></td>
-</tr>
-
-<tr>
-<td>7/7/2026</td>
-<td>HR-LT-07</td>
-<td>Credential Dump Attempt</td>
-<td><span class="status blocked">Blocked</span></td>
-</tr>
-
-<tr>
-<td>7/6/2026</td>
-<td>ENG-SRV01</td>
-<td>Suspicious Network Activity</td>
-<td><span class="status investigating">Investigating</span></td>
-</tr>
-
-<tr>
-<td>7/5/2026</td>
-<td>CEO-Laptop</td>
-<td>Malicious Macro</td>
-<td><span class="status blocked">Blocked</span></td>
-</tr>
-
-</table>
-
+<div class="space-y-32">
+<!-- Project 1 -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center fade-in-up mb-8" style="animation-play-state: running;">
+<div class="md:col-span-7 relative group overflow-hidden rounded glass-panel inner-glow diffused-glow transition-all duration-300">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 mix-blend-overlay"></div>
+<img class="w-full h-[400px] object-cover transform group-hover:scale-105 transition-transform duration-700" data-alt="Close up of Cisco network switches in a server rack with glowing green and blue LED lights and fiber optic cables connected. Dark, professional data center environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXuUJ2Fezu2R1VVRUPJnKeNMQ2GL1ZWYyIL1D1ph8kQNi7VF4xmE1JwTL-KWvvHUtpCWfUZi1aT77kJkjpwR4Oqb4LkiZd_EsT5L7BZEke8Jbccn1N8uHCRG2Ub6XMMIupZNMZmhM4b9mUOmdQO33fRgK3mkfYBmiC7ZcenPY1I8SCPMCcG8nP4FVa5JU0zXEEvbpBZ2dCEtDvhvGmBIKJW4DAJ2hd8OD5ixveL8qNTBs8edGGIRSq9A">
 </div>
-
-<div class="section">
-
-<h2>Top Detection Categories</h2>
-
-<div class="chart">
-
-<div class="bar" style="height:180px;">
-180
-<span>Malware</span>
+<div class="md:col-span-5 space-y-6">
+<div class="flex gap-2 font-label-caps text-label-caps">
+<span class="bg-surface-container-high px-3 py-1 rounded text-primary border border-primary/20">Cisco</span>
+<span class="bg-surface-container-high px-3 py-1 rounded text-primary border border-primary/20">802.1x</span>
 </div>
-
-<div class="bar" style="height:120px;">
-120
-<span>PowerShell</span>
+<h3 class="font-headline-md text-headline-md text-white">Cisco 802.1x Deployment</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Implemented enterprise-wide port-based network access control to secure wired and wireless infrastructure. Configured RADIUS authentication, defined dynamic VLAN assignments, and ensured rigorous identity verification for all endpoint devices connecting to the corporate network.
+                        </p>
 </div>
-
-<div class="bar" style="height:90px;">
-90
-<span>Credential</span>
 </div>
-
-<div class="bar" style="height:150px;">
-150
-<span>Network</span>
+<!-- Project 2 -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center fade-in-up" style="animation-play-state: running;">
+<div class="md:col-span-5 space-y-6 order-2 md:order-1">
+<div class="flex gap-2 font-label-caps text-label-caps">
+<span class="bg-surface-container-high px-3 py-1 rounded text-primary border border-primary/20">Architecture</span>
+<span class="bg-surface-container-high px-3 py-1 rounded text-primary border border-primary/20">Security</span>
 </div>
-
-<div class="bar" style="height:70px;">
-70
-<span>USB</span>
+<h3 class="font-headline-md text-headline-md text-white">Zero Trust Framework</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Designed and initiated a transition towards a Zero Trust security model. Established micro-segmentation strategies, continuous verification protocols, and least-privilege access policies across the hybrid infrastructure to mitigate lateral movement and secure critical assets.
+                        </p>
 </div>
-
+<div class="md:col-span-7 relative group overflow-hidden rounded glass-panel inner-glow diffused-glow transition-all duration-300 order-1 md:order-2">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 mix-blend-overlay"></div>
+<img class="w-full h-[400px] object-cover transform group-hover:scale-105 transition-transform duration-700" data-alt="A professional cybersecurity dashboard visualization showing a zero-trust network map and security alerts. Clean, high-tech UI, dark mode, futuristic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbsFkhl8DR1nAnmcuZPkQoKfMC7pZeu3o0Cn06flqjnA07pr7qeFhdlAPxdiXX8q96j0IcYIYj2o4ISJtN9N8-dbr4YKfJDlKC8wfGG7K_1eCWyt1XkEk23-7VoiGla1n42ZlGUtO3Mt1rPD3zVewySc9pIvtv4o5mjfzVAztsSmd0XOY-0PV_tau6I3VveALy3HPO7_CQUhBl1rumNK8KXlwTwB7w3ZPAiXNoNE3EK0XcJHKYDHVyJg">
 </div>
-
 </div>
-
-<div class="section">
-
-<h2>Executive Summary</h2>
-
-<p>
-
-• CrowdStrike successfully prevented all high-severity malware attempts during the reporting period.<br><br>
-
-• No successful ransomware infections occurred.<br><br>
-
-• Endpoint protection remained active on all managed systems.<br><br>
-
-• The majority of detections involved PowerShell abuse and malicious documents.
-
-</p>
-
+<!-- Project 3 -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center fade-in-up" style="animation-play-state: running;">
+<div class="md:col-span-7 relative group overflow-hidden rounded glass-panel inner-glow diffused-glow transition-all duration-300">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 mix-blend-overlay"></div>
+<img class="w-full h-[400px] object-cover transform group-hover:scale-105 transition-transform duration-700" data-alt="A professional SIEM monitoring interface showing real-time log analysis and network security events. Dark theme, glowing data visualizations, high-tech." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpfVOsNu4gjecYyKQLUZ1I2QU_sGFU9w053yYNvuZvDXkuOAOYwDu44HQhYSf90CURuKRwvQmLXKwiLX4eowre_1bQCgOvkscYj5EM86CPnw4-CdQRCW-vtouoSPaiuto1rFGQMTjiFP3-k_bOoI9Lh8Rvknra2nssSPxAXujVZ6jisP7gG5Gp29Z5fU6sABVSs5bJrfJ5u0QksWogtpwa7j6_66fVZlgUifn-IWa7EAFhT89bLQKATQ">
 </div>
-
+<div class="md:col-span-5 space-y-6">
+<div class="flex gap-2 font-label-caps text-label-caps">
+<span class="bg-surface-container-high px-3 py-1 rounded text-primary border border-primary/20">SIEM</span>
+<span class="bg-surface-container-high px-3 py-1 rounded text-primary border border-primary/20">Wazuh</span>
 </div>
-
-<footer>
-Security Operations Dashboard
+<h3 class="font-headline-md text-headline-md text-white">Wazuh Monitoring</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Deployed and tuned Wazuh SIEM for comprehensive log collection, threat detection, and incident response. Created custom decoders and rules to alert on suspicious activities, providing real-time visibility into the security posture of enterprise endpoints and servers.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Certifications Section -->
+<section class="py-section-gap-mobile md:py-section-gap bg-surface-container-lowest relative overflow-hidden" id="certifications">
+<!-- Abstract Tech Background Elements -->
+<div class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] -z-10"></div>
+<div class="absolute bottom-0 left-0 w-96 h-96 bg-tertiary-container/5 rounded-full blur-[100px] -z-10"></div>
+<div class="container mx-auto px-6 md:px-20 max-w-container-max">
+<div class="mb-16 fade-in-up text-center" style="animation-play-state: running;">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-white mb-2">Professional Certifications</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Verified credentials demonstrating expertise in network engineering and cybersecurity.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch"><div class="glass-panel p-8 rounded inner-glow diffused-glow transition-all duration-300 fade-in-up stagger-1 group text-center relative overflow-hidden h-full flex flex-col" style="animation-play-state: running;"><div class="h-32 mb-6 flex justify-center items-center"><img class="h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:drop-shadow-[0_0_15px_rgba(255,165,0,0.4)]" alt="CompTIA CySA+" src="https://lh3.googleusercontent.com/aida/AP1WRLtLzZlioTGP8b7fXj9ZMZDLU2rp4DsqqhYfydeXQQGcoqEHnF-3It6gBsT_ivauZsO0N777yWsK-CB7_axWq1etppxek8HaW1sr4o-bQ9P7C0PhQuYjQacwGmrbnjQFFxL4lMUcrsg29NdF3b_Eqql3PUhLGVZ1iNFo1a_3m0-1Nwh68uL7jhfJuOdGKsjz4U3fleOZFAE8tSkYSDIieb-FdUbG_Jrht6FC93iFHL9GZr5P7x8kGEE1ebFx"></div><h3 class="font-headline-md text-headline-md text-white mb-2">CompTIA CySA+</h3><p class="font-code-sm text-code-sm text-primary-fixed-dim mt-auto">Valid: 2025 - 2028</p></div><div class="glass-panel p-8 rounded inner-glow diffused-glow transition-all duration-300 fade-in-up stagger-2 group text-center relative overflow-hidden h-full flex flex-col" style="animation-play-state: running;"><div class="h-32 mb-6 flex justify-center items-center"><img class="h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:drop-shadow-[0_0_15px_rgba(255,165,0,0.4)]" alt="CompTIA Security+" src="https://lh3.googleusercontent.com/aida/AP1WRLuURfeidp3dyfb6cceWjCStBDTd5XzSNja3uq4WOiKe8uk6x16Sc0O9NpkltJ1k8dzMIVh27DDcLek01XAlQvvlUp14Nk0sPT04msVgIugSbtIDZ8HcEWu_YMGPLobwaFxx7n4OyRc8zc1uDXI5F6NEFzXUPBzxBBa46N-m-aInNsfIYwdEwHbksuAPbDm_1aG9xLAnsBhdKW8fmX1-ShDR82lI5ptC5wdbiwiwUqm3SUklTf0Jl16hTu3q"></div><h3 class="font-headline-md text-headline-md text-white mb-2">CompTIA Security+</h3><p class="font-code-sm text-code-sm text-primary-fixed-dim mt-auto">Valid: 2022 - 2028</p></div><div class="glass-panel p-8 rounded inner-glow diffused-glow transition-all duration-300 fade-in-up stagger-3 group text-center relative overflow-hidden h-full flex flex-col" style="animation-play-state: running;"><div class="h-32 mb-6 flex justify-center items-center"><img class="h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:drop-shadow-[0_0_15px_rgba(255,215,0,0.4)]" alt="Microsoft Network Administrator" src="https://lh3.googleusercontent.com/aida/AP1WRLs4Ipei8Cq3zXiwjcH43N4SkUB3-Z2YNIGwzbIfZoRZQ8LjUmBNJuacDunc4bUxoifwCmri5VCN7XZZJvJiHd3urUhFr_VG5UHkt-bJ9cZSIbWSioNaRR-LyhzO6L8fS5n7gwr0EunRgcB4sCWeak5IyOkdMgJTTz-cy_ks622G3Bzj6DIaNnkGoomulwSx06vHw7vunMJkJwUEg56iFRuFddywq4hSKvC78Guw9Ff67JqQDE2RufGjCQZU"></div><h3 class="font-headline-md text-headline-md text-white mb-2">Microsoft Network Administrator</h3><p class="font-code-sm text-code-sm text-primary-fixed-dim mt-auto">Certified Associate</p></div></div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest full-width py-12 border-t border-outline-variant/30" id="contact">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 max-w-container-max mx-auto gap-8"><div class="w-full space-y-8">
+    <div class="text-center"><h4 class="font-headline-md text-headline-md text-primary mb-6">Get in Contact with Me Today!</h4><p class="font-body-md text-body-md text-on-surface-variant mb-8 max-w-2xl mx-auto">I am willing to work full time: Remote, Hybrid, or 100% On-site within a 40 mile radius of my current location.</p><div class="flex flex-wrap justify-center gap-x-8 gap-y-4 font-code-sm text-code-sm text-secondary-fixed-dim"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">location_on</span> Athens, GA</span><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">phone</span> (706)-614-6606</span><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">mail</span> brentalford9719@gmail.com</span><a class="text-on-surface-variant hover:text-primary-container transition-all flex items-center gap-2" href="#"><span class="material-symbols-outlined text-[18px]">link</span> LinkedIn</a><a class="text-on-surface-variant hover:text-primary-container transition-all flex items-center gap-2" href="#"><span class="material-symbols-outlined text-[18px]">link</span> Facebook</a></div></div>
+    <div class="pt-8 border-t border-outline-variant/20 text-center">
+        <p class="font-body-md text-body-md text-on-surface-variant text-sm opacity-60">
+            © 2024 Network &amp; Security Architect. All rights reserved.
+        </p>
+    </div>
+</div></div>
 </footer>
-
 <script>
+        // Simple Intersection Observer for scroll animations
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
 
-const counters=document.querySelectorAll('.number');
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
 
-counters.forEach(counter=>{
+            const animatedElements = document.querySelectorAll('.fade-in-up');
+            animatedElements.forEach(el => {
+                el.style.animationPlayState = 'paused';
+                observer.observe(el);
+            });
+        });
+    </script>
 
-const update=()=>{
 
-const target=+counter.getAttribute('data-target');
-
-const count=+counter.innerText;
-
-const increment=target/100;
-
-if(count<target){
-
-counter.innerText=Math.ceil(count+increment);
-
-setTimeout(update,20);
-
-}else{
-
-counter.innerText=target;
-
-}
-
-}
-
-update();
-
-});
-
-</script>
-
-</body>
-</html>
+</body></html>
